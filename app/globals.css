@@ -1,0 +1,1008 @@
+/* --- Import Google Fonts (Terminal) --- */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Light mode - Classic light terminal */
+  --bg-page: #e8e6e3;
+  --bg-terminal: #fefefe;
+  --bg-header: #e8e6e3;
+  --text-primary: #24292f;
+  --text-secondary: #57606a;
+  --text-muted: #8b949e;
+  --accent: #0969da;
+  --accent-hover: #0550ae;
+  --border: #d0d7de;
+  --prompt-color: #1a7f37;
+  --command-color: #24292f;
+  --output-color: #57606a;
+  --link-color: #0969da;
+  --current-badge: #1a7f37;
+
+  /* Semantic */
+  --success: #1a7f37;
+  --github-merged: #8957e5;
+  --github-open: #1a7f37;
+}
+
+[data-theme="dark"] {
+  /* Dark mode - GitHub dark terminal */
+  --bg-page: #010409;
+  --bg-terminal: #0d1117;
+  --bg-header: #161b22;
+  --text-primary: #c9d1d9;
+  --text-secondary: #8b949e;
+  --text-muted: #6e7681;
+  --accent: #58a6ff;
+  --accent-hover: #79c0ff;
+  --border: #30363d;
+  --prompt-color: #7ee787;
+  --command-color: #c9d1d9;
+  --output-color: #8b949e;
+  --link-color: #58a6ff;
+  --current-badge: #7ee787;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  font-size: 14px;
+}
+
+body {
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+/* Terminal Page Container */
+.terminalPage {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Terminal Window */
+.terminal {
+  background: var(--bg-terminal);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+/* Terminal Header / Title Bar */
+.terminalHeader {
+  background: var(--bg-header);
+  border-bottom: 1px solid var(--border);
+  padding: 0.75rem 1rem;
+  display: grid;
+  grid-template-columns: 80px 1fr 80px;
+  align-items: center;
+}
+
+.terminalButtons {
+  display: flex;
+  gap: 8px;
+}
+
+.terminalBtn {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--border);
+  border: none;
+  padding: 0;
+  display: block;
+}
+
+/* Buttons that actually do something get affordances; decorative ones don't */
+.terminalBtn.active {
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.terminalBtn.active:hover {
+  opacity: 0.75;
+  transform: scale(1.15);
+}
+
+.terminalBtn.active:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.terminalBtn.close {
+  background: #ff5f57;
+}
+
+.terminalBtn.maximize {
+  background: #28c840;
+}
+
+/* Fullscreen: the terminal element becomes the whole viewport, so it needs to
+   supply its own background and scrolling */
+.terminal:fullscreen {
+  border: none;
+  border-radius: 0;
+  overflow-y: auto;
+  background: var(--bg-terminal);
+}
+
+.terminal:fullscreen .terminalHeader {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.terminal:fullscreen .terminalBody {
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Fallback for contexts where the Fullscreen API is blocked */
+.terminal.maximized {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  border: none;
+  border-radius: 0;
+  overflow-y: auto;
+}
+
+.terminal.maximized .terminalHeader {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.terminal.maximized .terminalBody {
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.terminalTitle {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.terminalPath {
+  color: var(--text-muted);
+}
+
+.terminalHeaderRight {
+  width: auto;
+  /* Spacer for grid alignment */
+}
+
+/* Terminal Body */
+.terminalBody {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.terminalNavbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg-terminal);
+  border-bottom: 1px solid var(--border);
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.75rem;
+  margin: -1.5rem -1.5rem 1.5rem -1.5rem;
+  /* Counteract padding of terminalBody */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.navPrefix {
+  color: var(--accent);
+  font-weight: 600;
+  display: none;
+  /* Hide on mobile to save space */
+}
+
+.navItems {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  /* Hide scrollbar */
+}
+
+.navItems::-webkit-scrollbar {
+  display: none;
+}
+
+.navItem {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  white-space: nowrap;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.navItem:hover {
+  color: var(--text-primary);
+  background: var(--bg-header);
+}
+
+.navItem.active {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+.navKey {
+  opacity: 0.7;
+  font-weight: normal;
+}
+
+@media (min-width: 640px) {
+  .navPrefix {
+    display: block;
+  }
+}
+
+/* Visitor Counter */
+.visitorCounter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  border-left: 1px solid var(--border);
+  padding-left: 1rem;
+  display: none;
+  /* Hidden on mobile by default */
+}
+
+@media (min-width: 768px) {
+  .visitorCounter {
+    display: flex;
+  }
+}
+
+.visitorCounter .label {
+  font-weight: 600;
+}
+
+.visitorCounter .count {
+  color: var(--accent);
+  font-family: inherit;
+  letter-spacing: 0.1em;
+}
+
+/* Terminal Block (single command + output) */
+.terminalBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Command Line */
+.cmdLine {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.prompt {
+  color: var(--prompt-color);
+  font-weight: 600;
+  user-select: none;
+}
+
+.cmd {
+  color: var(--command-color);
+  font-weight: 500;
+}
+
+/* Blinking Cursor */
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1.2em;
+  background: var(--prompt-color);
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+}
+
+@keyframes blink {
+
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Output */
+.output {
+  padding-left: 1rem;
+  color: var(--output-color);
+}
+
+.outputText {
+  margin: 0;
+  max-width: 70ch;
+}
+
+
+/* Role / Title Standout */
+.roleContainer {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.rolePrefix {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.roleText {
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: linear-gradient(90deg, var(--accent) 0%, var(--accent-hover) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  width: fit-content;
+}
+
+/* ASCII Art */
+.asciiArt {
+  font-size: 0.65rem;
+  line-height: 1.15;
+  margin-bottom: 0.75rem;
+  overflow-x: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.asciiArt span {
+  display: block;
+}
+
+/* Colorful ASCII gradient like Gemini CLI */
+.ascii1 {
+  color: #ff6b6b;
+}
+
+/* Red/Pink */
+.ascii2 {
+  color: #f06595;
+}
+
+/* Magenta */
+.ascii3 {
+  color: #cc5de8;
+}
+
+/* Purple */
+.ascii4 {
+  color: #845ef7;
+}
+
+/* Violet */
+.ascii5 {
+  color: #5c7cfa;
+}
+
+/* Blue */
+
+[data-theme="dark"] .ascii1 {
+  color: #ff8787;
+}
+
+[data-theme="dark"] .ascii2 {
+  color: #f783ac;
+}
+
+[data-theme="dark"] .ascii3 {
+  color: #da77f2;
+}
+
+[data-theme="dark"] .ascii4 {
+  color: #9775fa;
+}
+
+[data-theme="dark"] .ascii5 {
+  color: #748ffc;
+}
+
+/* Terminal Skills Grid */
+.terminalSkills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* TechIcon - Compact variant for terminal */
+.techIconCompact {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.5rem;
+  background: var(--bg-header);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  font-size: 0.75rem;
+  color: var(--text-primary);
+}
+
+.techIconCompact img {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+}
+
+.techIconCompact .techLabel {
+  color: var(--text-secondary);
+}
+
+/* TechIcon - Badge variant */
+.techBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15rem 0.4rem;
+  background: var(--bg-header);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  font-size: 0.7rem;
+}
+
+.techBadge img {
+  width: 12px;
+  height: 12px;
+}
+
+.techBadge .techLabel {
+  color: var(--text-secondary);
+}
+
+/* Text-only badge for tech with no devicon glyph (LangChain, CrewAI, FAISS, ...) */
+.techTextOnly .techLabel {
+  color: var(--text-primary);
+  opacity: 0.85;
+}
+
+.terminalList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+
+.terminalListItem {
+  color: var(--text-primary);
+}
+
+.terminalListItem::before {
+  content: '• ';
+  color: var(--accent);
+}
+
+/* Terminal Links */
+.terminalLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.terminalLink {
+  color: var(--link-color);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.15s;
+}
+
+.terminalLink:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
+.linkIcon {
+  font-size: 1rem;
+}
+
+/* Experience Entry */
+.expEntry {
+  padding: 0.75rem 0;
+  border-bottom: 1px dashed var(--border);
+}
+
+.expEntry:last-child {
+  border-bottom: none;
+}
+
+.expHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.expCompany {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.expCurrent {
+  font-size: 0.75rem;
+  color: var(--current-badge);
+  font-weight: 600;
+}
+
+.expMeta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.expRole {
+  color: var(--accent);
+}
+
+.expDates {
+  color: var(--text-muted);
+}
+
+.expLocation {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.expTools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.expTool {
+  padding: 0.15rem 0.5rem;
+  background: var(--bg-header);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* A named project inside a role - keeps multi-project jobs from reading
+   as one undifferentiated bullet list */
+.expProject {
+  margin-top: 1rem;
+  padding-left: 0.85rem;
+  border-left: 2px solid var(--border);
+}
+
+.expProject:first-of-type {
+  margin-top: 0.75rem;
+}
+
+.expProjectName {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.expProjectMarker {
+  color: var(--prompt-color);
+}
+
+.expProject .expTools {
+  margin: 0.4rem 0 0.25rem;
+}
+
+.expHighlights {
+  list-style: none;
+  margin-top: 0.5rem;
+  padding: 0;
+}
+
+.expHighlights li {
+  font-size: 0.85rem;
+  color: var(--output-color);
+  margin-bottom: 0.25rem;
+}
+
+/* Projects Table */
+.projectsTable {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.projectsHeader {
+  display: grid;
+  grid-template-columns: 200px 1fr 150px;
+  gap: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.projectRow {
+  display: grid;
+  grid-template-columns: 200px 1fr 150px;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: start;
+}
+
+.projectRow:last-child {
+  border-bottom: none;
+}
+
+.projectName {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* Inline so it trails the title text instead of being pushed to the
+   far edge of the column when the title wraps */
+.projectIcon {
+  color: var(--link-color);
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-left: 0.35rem;
+  white-space: nowrap;
+}
+
+.projectIcon:hover {
+  color: var(--accent-hover);
+}
+
+.projectDesc {
+  color: var(--output-color);
+  line-height: 1.5;
+}
+
+.projectStack {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+/* Blog listing */
+.postList {
+  display: flex;
+  flex-direction: column;
+}
+
+.postRow {
+  display: block;
+  padding: 0.75rem 0;
+  border-bottom: 1px dashed var(--border);
+  text-decoration: none;
+  color: inherit;
+}
+
+.postRow:last-child {
+  border-bottom: none;
+}
+
+.postRow:hover .postRowTitle {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
+.postRowHead {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.postRowTitle {
+  color: var(--link-color);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.postRowDate {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.postRowSummary {
+  color: var(--output-color);
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.postTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.postTag {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+}
+
+/* Blog post page */
+.postArticle {
+  max-width: 70ch;
+}
+
+.postTitle {
+  color: var(--text-primary);
+  font-size: 1.35rem;
+  line-height: 1.35;
+}
+
+.postMeta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 0.5rem 0 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.postDate {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+
+.postMeta .postTags {
+  margin-top: 0;
+}
+
+.postBody {
+  color: var(--output-color);
+  font-size: 0.9rem;
+}
+
+.postBody > * + * {
+  margin-top: 1rem;
+}
+
+.postBody h1,
+.postBody h2,
+.postBody h3 {
+  color: var(--text-primary);
+  margin-top: 2rem;
+  font-size: 1.05rem;
+}
+
+.postBody a {
+  color: var(--link-color);
+}
+
+.postBody strong {
+  color: var(--text-primary);
+}
+
+.postBody ul,
+.postBody ol {
+  padding-left: 1.5rem;
+}
+
+.postBody li + li {
+  margin-top: 0.35rem;
+}
+
+.postBody blockquote {
+  border-left: 2px solid var(--border);
+  padding-left: 1rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.postBody code {
+  background: var(--bg-header);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.1rem 0.3rem;
+  font-size: 0.85em;
+  color: var(--text-primary);
+}
+
+.postBody pre {
+  background: var(--bg-header);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.postBody pre code {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.postBody img {
+  max-width: 100%;
+  height: auto;
+}
+
+
+/* Long words, URLs and inline code must never push the layout sideways */
+.outputText,
+.projectDesc,
+.postRowSummary,
+.postBody,
+.postTitle,
+.expHighlights li,
+.expProjectName,
+.terminalLink {
+  overflow-wrap: anywhere;
+}
+
+/* Title bar must be able to shrink, and truncate rather than overflow */
+.terminalTitle {
+  min-width: 0;
+}
+
+.terminalTitle span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  body {
+    padding: 1rem;
+  }
+
+  .terminalBody {
+    padding: 1rem;
+  }
+
+  .terminalNavbar {
+    margin: -1rem -1rem 1rem -1rem;
+    padding: 0.5rem;
+  }
+
+  .asciiArt {
+    font-size: 0.4rem;
+  }
+
+  .projectsHeader,
+  .projectRow {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .projectsHeader {
+    display: none;
+  }
+
+  .projectName {
+    font-weight: 600;
+  }
+
+  .projectDesc {
+    white-space: normal;
+  }
+
+  .expMeta {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  /* Stack labels above values so nothing is squeezed */
+  .postRowHead {
+    gap: 0.25rem;
+  }
+
+  .postArticle {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .terminalHeader {
+    grid-template-columns: auto 1fr auto;
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  /* The path is the expendable half of the title on a phone */
+  .terminalPath {
+    display: none;
+  }
+
+  .asciiArt {
+    font-size: 0.33rem;
+  }
+
+  .postTitle {
+    font-size: 1.1rem;
+  }
+
+  .postBody pre {
+    padding: 0.75rem;
+  }
+}
+
+/* Give the 12px window buttons a finger-sized hit area without changing
+   how they look */
+@media (pointer: coarse) {
+  .terminalBtn.active {
+    position: relative;
+  }
+
+  .terminalBtn.active::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* Terminal Header Theme Toggle */
+.terminalThemeToggle {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  width: 28px;
+  height: 28px;
+  margin-left: auto;
+  /* Align to right edge */
+}
+
+.terminalThemeToggle:hover {
+  color: var(--text-primary);
+  background: var(--bg-page);
+}
+
+.terminalThemeToggle svg {
+  width: 16px;
+  height: 16px;
+}

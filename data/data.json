@@ -1,0 +1,115 @@
+{
+  "name": "Ojas Soni",
+  "tagline": "Building agentic AI systems. Wiring LLMs into production. Making retrieval actually retrieve.",
+  "description": "AI Engineer working on agentic AI and retrieval systems that run in production. I build multi-agent pipelines, RAG platforms, and the FastAPI services that hold them together — currently automating incident resolution and candidate evaluation at enterprise scale.",
+  "email": "ojassoni0221@gmail.com",
+  "techStack": [
+    "python",
+    "langgraph",
+    "langchain",
+    "crewai",
+    "fastapi",
+    "pytorch",
+    "docker",
+    "kubernetes",
+    "aws",
+    "mongodb",
+    "postgresql",
+    "duckdb",
+    "kafka",
+    "git",
+    "linux"
+  ],
+  "socials": [
+    {
+      "platform": "linkedin",
+      "url": "https://www.linkedin.com/in/ojas-soni-88181a203/"
+    },
+    {
+      "platform": "github",
+      "url": "https://github.com/Shanks-021"
+    }
+  ],
+  "experience": [
+    {
+      "company": "Tata Consultancy Services",
+      "client": "Apple",
+      "location": "Noida, IN",
+      "role": "AI Engineer",
+      "startDate": "Nov 2024",
+      "endDate": null,
+      "current": true,
+      "projects": [
+        {
+          "name": "AI-Driven Automated Ticket Resolution System",
+          "tools": [
+            "python",
+            "langgraph",
+            "mcp",
+            "kafka",
+            "fastapi",
+            "docker"
+          ],
+          "highlights": [
+            "Engineered an agentic incident automation platform integrating MCP servers with a real-time Kafka ingestion pipeline processing 10,000+ production tickets daily, with RAG-powered orchestration agents that autonomously analyze and resolve production incidents.",
+            "Developed specialized AI agents for Splunk log intelligence, anomaly detection, and contextual error summarization, integrating enterprise ITSM ticketing portals for real-time incident ingestion and tracking.",
+            "Built FastAPI microservices with async endpoints for agent orchestration, health monitoring, and audit logging, containerized via Docker on scalable cloud infrastructure.",
+            "Implemented a RAG-driven root cause analysis pipeline using historical incident embeddings, semantic retrieval, and structured remediation generation — cutting manual triage effort by 40% and average resolution time from hours to minutes."
+          ]
+        },
+        {
+          "name": "AI-Powered Talent Evaluation and Interview Intelligence System",
+          "tools": [
+            "python",
+            "crewai",
+            "gemini",
+            "fastapi",
+            "mongodb"
+          ],
+          "highlights": [
+            "Built an agentic resume screening and interview automation platform on CrewAI and Gemini, with autonomous agents for resume parsing, dynamic question generation, and skill-gap analysis, backed by RAG retrieval of JD-specific questions from MongoDB.",
+            "Implemented a multi-dimensional evaluation framework scoring candidates on correctness, clarity, depth, and relevance using Sentence Transformers for semantic similarity, reaching 87% agreement with human interviewer decisions.",
+            "Built session management with FastAPI handling 100+ concurrent interviews, MongoDB persistence for conversation history, and sub-2s response latency across all agent interactions.",
+            "Developed a summary generation agent producing structured hiring reports (strengths, skill gaps, risk factors, recommendations) with automated PDF generation via ReportLab, reducing end-to-end interview processing time by 60%."
+          ]
+        }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "Hashnode Publishing Pipeline",
+      "description": "Git-based publishing workflow that turns a repo into a Hashnode CMS. A GitHub Actions job diffs each push for changed markdown under posts/, parses YAML frontmatter for title and tags, and publishes through Hashnode's GraphQL API — creating a draft then publishing it. Post IDs are persisted in a mapping file so re-pushing an edited file updates the live post instead of duplicating it.",
+      "githubUrl": "https://github.com/Shanks-021/Hashnode",
+      "liveUrl": null,
+      "techStack": [
+        "python",
+        "githubactions",
+        "graphql"
+      ]
+    },
+    {
+      "name": "Enterprise Secure Multi-Tenant RAG Assistant",
+      "description": "Multi-tenant Agentic RAG platform with RBAC document-level authorization and knowledge isolation. LLMOps pipelines handle ingestion, chunking, and hybrid semantic retrieval with reranking; open-source LLMs serve citation-grounded answers behind FastAPI.",
+      "githubUrl": null,
+      "liveUrl": null,
+      "techStack": [
+        "python",
+        "langchain",
+        "fastapi",
+        "docker"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Thapar Institute of Engineering and Technology",
+      "location": "Punjab, IN",
+      "degree": "B.E. Computer Engineering",
+      "detail": "CGPA: 7.90",
+      "startDate": "Aug 2020",
+      "endDate": "July 2024"
+    }
+  ],
+  "resumeUrl": "/OjasSoni_Resume.pdf"
+}
