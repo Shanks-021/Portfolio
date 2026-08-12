@@ -3,7 +3,12 @@ title: "Why RAG Pipelines Fail in Production"
 date: "2026-08-12"
 summary: "Retrieval quality, not model quality, is what breaks most RAG systems once real users show up."
 tags: ["rag", "llm", "retrieval"]
+draft: true
 ---
+
+> **This is a template, not a real post.** It is hidden from the site by
+> `draft: true` above. Delete this file, or use it as a formatting reference and
+> remove the `draft` line when you publish something of your own.
 
 This is an example post so the blog section has something to render. Delete this
 file and write your own — every `.md` file in `content/blog/` becomes a post

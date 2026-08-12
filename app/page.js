@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <div className="terminalPage">
       <Terminal title="ojas@portfolio" path="~/about">
-        <TerminalNavbar />
+        <TerminalNavbar hasBlogs={posts.length > 0} />
         {/* Welcome / whoami */}
         <TerminalBlock command="whoami">
           <AsciiArt />

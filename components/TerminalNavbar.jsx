@@ -1,8 +1,8 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
-const NAV_ITEMS = [
+const ALL_NAV_ITEMS = [
     { id: 'about', label: 'about', shortcut: '1' },
     { id: 'skills', label: 'skills', shortcut: '2' },
     { id: 'experience', label: 'experience', shortcut: '3' },
@@ -13,8 +13,17 @@ const NAV_ITEMS = [
 
 const SCROLL_OFFSET = 80;
 
-export default function TerminalNavbar() {
+/**
+ * @param {boolean} hasBlogs - hide the blogs entry when no published posts exist,
+ *                             so the shortcut never points at a missing section
+ */
+export default function TerminalNavbar({ hasBlogs = true }) {
     const [activeSection, setActiveSection] = useState('about');
+
+    const navItems = useMemo(
+        () => (hasBlogs ? ALL_NAV_ITEMS : ALL_NAV_ITEMS.filter((item) => item.id !== 'blogs')),
+        [hasBlogs]
+    );
 
     const goToSection = useCallback((id) => {
         const element = document.getElementById(id);
@@ -43,7 +52,7 @@ export default function TerminalNavbar() {
                 return;
             }
 
-            const item = NAV_ITEMS.find((i) => i.shortcut === e.key);
+            const item = navItems.find((i) => i.shortcut === e.key);
             if (!item) return;
 
             e.preventDefault();
@@ -52,11 +61,11 @@ export default function TerminalNavbar() {
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [goToSection]);
+    }, [goToSection, navItems]);
 
     // Keep the highlighted item in sync when scrolling, not just on click
     useEffect(() => {
-        const sections = NAV_ITEMS
+        const sections = navItems
             .map((item) => document.getElementById(item.id))
             .filter(Boolean);
 
@@ -75,13 +84,13 @@ export default function TerminalNavbar() {
 
         sections.forEach((section) => observer.observe(section));
         return () => observer.disconnect();
-    }, []);
+    }, [navItems]);
 
     return (
         <div className="terminalNavbar">
             <div className="navPrefix">MODE: NORMAL &gt;&gt;</div>
             <div className="navItems">
-                {NAV_ITEMS.map((item) => (
+                {navItems.map((item) => (
                     <button
                         key={item.id}
                         onClick={(e) => handleNavClick(e, item.id)}
