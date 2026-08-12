@@ -121,23 +121,49 @@ export default function Home() {
         {/* Projects */}
         {data.projects && data.projects.length > 0 && (
           <TerminalBlock command="ls -la projects/" id="projects">
-            <div className="projectsTable">
-              <div className="projectsHeader">
-                <span>NAME</span>
-                <span>DESCRIPTION</span>
-                <span>STACK</span>
-              </div>
-              {data.projects.map((project, index) => (
-                <div key={index} className="projectRow">
-                  <span className="projectName">
-                    {project.name}
-                    {project.githubUrl && <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="projectIcon">↗</a>}
-                  </span>
-                  <span className="projectDesc">{project.description}</span>
-                  <span className="projectStack">{project.techStack?.join(', ')}</span>
+            {data.projects.map((project, index) => (
+              <div key={index} className="expProject">
+                <div className="expProjectName">
+                  <span className="expProjectMarker">▸</span> {project.name}
+                  {project.githubUrl && (
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="projectIcon"
+                      aria-label={`${project.name} on GitHub`}
+                    >
+                      ↗
+                    </a>
+                  )}
+                  {project.liveUrl && (
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="projectIcon"
+                      aria-label={`${project.name} live site`}
+                    >
+                      ↗
+                    </a>
+                  )}
                 </div>
-              ))}
-            </div>
+                {project.techStack && (
+                  <div className="expTools">
+                    {project.techStack.map((tech) => (
+                      <TechIcon key={tech} tech={tech} showLabel={true} variant="badge" />
+                    ))}
+                  </div>
+                )}
+                {project.highlights && (
+                  <ul className="expHighlights">
+                    {project.highlights.map((h, i) => (
+                      <li key={i}>- {h}</li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
           </TerminalBlock>
         )}
 

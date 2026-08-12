@@ -15,8 +15,22 @@ export async function generateMetadata({ params }) {
     if (!post) return { title: 'Post not found' };
 
     return {
-        title: `${post.title} | Ojas Soni`,
+        title: post.title,
         description: post.summary,
+        alternates: { canonical: `/blog/${post.slug}` },
+        openGraph: {
+            type: 'article',
+            title: post.title,
+            description: post.summary,
+            url: `/blog/${post.slug}`,
+            publishedTime: post.date || undefined,
+            tags: post.tags,
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: post.title,
+            description: post.summary,
+        },
     };
 }
 

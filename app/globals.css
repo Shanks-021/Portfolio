@@ -265,35 +265,6 @@ body {
   }
 }
 
-/* Visitor Counter */
-.visitorCounter {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  border-left: 1px solid var(--border);
-  padding-left: 1rem;
-  display: none;
-  /* Hidden on mobile by default */
-}
-
-@media (min-width: 768px) {
-  .visitorCounter {
-    display: flex;
-  }
-}
-
-.visitorCounter .label {
-  font-weight: 600;
-}
-
-.visitorCounter .count {
-  color: var(--accent);
-  font-family: inherit;
-  letter-spacing: 0.1em;
-}
-
 /* Terminal Block (single command + output) */
 .terminalBlock {
   display: flex;
@@ -640,46 +611,12 @@ body {
   margin-bottom: 0.25rem;
 }
 
-/* Projects Table */
-.projectsTable {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  font-size: 0.85rem;
+.notFoundError {
+  color: #f85149;
 }
 
-.projectsHeader {
-  display: grid;
-  grid-template-columns: 200px 1fr 150px;
-  gap: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--border);
-  color: var(--text-muted);
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.projectRow {
-  display: grid;
-  grid-template-columns: 200px 1fr 150px;
-  gap: 1rem;
-  padding: 0.75rem 0;
-  border-bottom: 1px dashed var(--border);
-  align-items: start;
-}
-
-.projectRow:last-child {
-  border-bottom: none;
-}
-
-.projectName {
-  color: var(--text-primary);
-  font-weight: 500;
-}
-
-/* Inline so it trails the title text instead of being pushed to the
-   far edge of the column when the title wraps */
+/* Projects use the same presentation as the projects nested inside a role
+   (.expProject) - only the external-link affordance is extra */
 .projectIcon {
   color: var(--link-color);
   text-decoration: none;
@@ -690,16 +627,6 @@ body {
 
 .projectIcon:hover {
   color: var(--accent-hover);
-}
-
-.projectDesc {
-  color: var(--output-color);
-  line-height: 1.5;
-}
-
-.projectStack {
-  color: var(--text-muted);
-  font-size: 0.75rem;
 }
 
 /* Blog listing */
@@ -863,7 +790,6 @@ body {
 
 /* Long words, URLs and inline code must never push the layout sideways */
 .outputText,
-.projectDesc,
 .postRowSummary,
 .postBody,
 .postTitle,
@@ -901,24 +827,6 @@ body {
 
   .asciiArt {
     font-size: 0.4rem;
-  }
-
-  .projectsHeader,
-  .projectRow {
-    grid-template-columns: 1fr;
-    gap: 0.25rem;
-  }
-
-  .projectsHeader {
-    display: none;
-  }
-
-  .projectName {
-    font-weight: 600;
-  }
-
-  .projectDesc {
-    white-space: normal;
   }
 
   .expMeta {

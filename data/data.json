@@ -79,18 +79,21 @@
   "projects": [
     {
       "name": "Hashnode Publishing Pipeline",
-      "description": "Git-based publishing workflow that turns a repo into a Hashnode CMS. A GitHub Actions job diffs each push for changed markdown under posts/, parses YAML frontmatter for title and tags, and publishes through Hashnode's GraphQL API — creating a draft then publishing it. Post IDs are persisted in a mapping file so re-pushing an edited file updates the live post instead of duplicating it.",
       "githubUrl": "https://github.com/Shanks-021/Hashnode",
       "liveUrl": null,
       "techStack": [
         "python",
         "githubactions",
         "graphql"
+      ],
+      "highlights": [
+        "Built a Git-based publishing workflow that turns a plain repository into a Hashnode CMS — writing a post is a git push, with no dashboard in the loop.",
+        "A GitHub Actions job diffs each push for changed markdown under posts/, parses YAML frontmatter for title and tags, and publishes through Hashnode's GraphQL API by creating a draft and then publishing it.",
+        "Persisted post IDs in a mapping file so re-pushing an edited file updates the live post in place instead of publishing a duplicate."
       ]
     },
     {
       "name": "Enterprise Secure Multi-Tenant RAG Assistant",
-      "description": "Multi-tenant Agentic RAG platform with RBAC document-level authorization and knowledge isolation. LLMOps pipelines handle ingestion, chunking, and hybrid semantic retrieval with reranking; open-source LLMs serve citation-grounded answers behind FastAPI.",
       "githubUrl": null,
       "liveUrl": null,
       "techStack": [
@@ -98,6 +101,11 @@
         "langchain",
         "fastapi",
         "docker"
+      ],
+      "highlights": [
+        "Architected a secure multi-tenant Agentic RAG platform with RBAC-driven document-level authorization, metadata-aware retrieval, and enterprise-grade knowledge isolation across dynamic document repositories.",
+        "Engineered scalable LLMOps pipelines for automated document ingestion, chunking, embedding orchestration, and hybrid semantic retrieval leveraging vector databases, reranking, and real-time synchronization workflows.",
+        "Integrated open-source LLMs with citation-grounded generation, conversational memory, audit telemetry, and high-throughput FastAPI-based inference orchestration for production-scale enterprise AI assistants."
       ]
     }
   ],

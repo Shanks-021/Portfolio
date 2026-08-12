@@ -56,7 +56,27 @@ matching entry it renders with a logo; otherwise it falls back to a text-only ba
 which is what the AI/ML tools (LangGraph, CrewAI, FAISS, …) use since devicon has no
 glyphs for them.
 
+## Keyboard shortcuts
+
+Press `1`–`6` anywhere on the home page to jump to about / skills / experience /
+projects / education / blogs.
+
+## Generated routes
+
+| Route | Source |
+| --- | --- |
+| `/opengraph-image` | `app/opengraph-image.js` — social share card |
+| `/icon.svg` | `app/icon.svg` — favicon |
+| `/feed.xml` | `app/feed.xml/route.js` — RSS of blog posts |
+| `/sitemap.xml` | `app/sitemap.js` |
+| `/robots.txt` | `app/robots.js` |
+| 404 page | `app/not-found.js` |
+
 ## Deploy
 
-Push to GitHub and import the repo on [Vercel](https://vercel.com/new). No environment
-variables or build configuration required.
+Push to GitHub and import the repo on [Vercel](https://vercel.com/new).
+
+**Set `NEXT_PUBLIC_SITE_URL` to your real domain** (e.g. `https://ojassoni.dev`).
+Social cards, the RSS feed, and the sitemap all need absolute URLs; without it they
+fall back to the Vercel production URL, and to `http://localhost:3000` locally.
+See `lib/site.js`.
