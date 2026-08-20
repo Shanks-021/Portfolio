@@ -69,8 +69,30 @@ projects / education / blogs.
 | `/icon.svg` | `app/icon.svg` — favicon |
 | `/feed.xml` | `app/feed.xml/route.js` — RSS of blog posts |
 | `/sitemap.xml` | `app/sitemap.js` |
-| `/robots.txt` | `app/robots.js` |
+| `/robots.txt` | `app/robots.js` — allows search and AI crawlers explicitly |
+| `/llms.txt` | `app/llms.txt/route.js` — the whole profile as plain markdown |
 | 404 page | `app/not-found.js` |
+
+## Being scrapable
+
+Everything on the page is in the server-rendered HTML, so a crawler that does not
+run JavaScript still sees the full profile — the typewriter effect starts from
+the complete text and animates after hydration rather than building it up from
+nothing.
+
+On top of that:
+
+- **JSON-LD** (`lib/schema.js`) publishes a `Person` / `ProfilePage` graph on the
+  home page and `BlogPosting` on each post, all generated from `data/data.json`
+  and the post frontmatter. Edit the data, and the structured data follows.
+- **`/llms.txt`** serves the same content as plain markdown in one request, for
+  LLM crawlers and anyone who would rather not parse HTML.
+- **Semantic markup** — `main`, `section`, `article`, and a real `h1`–`h4`
+  outline behind the terminal styling, so text extractors get structure. The
+  section headings and the spelled-out name are visually hidden (`.srOnly`), not
+  absent.
+- **`robots.txt`** names the search and AI crawlers and allows them, rather than
+  relying on a bare wildcard.
 
 ## Deploy
 

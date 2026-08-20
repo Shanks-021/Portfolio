@@ -914,3 +914,47 @@ body {
   width: 16px;
   height: 16px;
 }
+
+/* --- Structure for machines, unchanged for humans ---------------------------
+   Sections, entries and lists are marked up semantically (h1-h4, section,
+   article, ul) so crawlers, screen readers and text extractors can read the
+   page structure. These rules strip the browser defaults that markup brings so
+   the terminal look is untouched. */
+
+/* In the DOM and in the accessibility tree, absent from the screen */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Heading level carries meaning; size and weight come from the classes */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.postTitle {
+  font-weight: 700;
+}
+
+.terminalSkills,
+.expTools {
+  list-style: none;
+}
+
+.terminalSkills li,
+.expTools li {
+  display: flex;
+}

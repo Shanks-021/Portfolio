@@ -27,7 +27,9 @@ const COLORS = [
 
 export default function AsciiArt() {
     return (
-        <pre className="asciiArt">
+        // Decorative: the readable name is the <h1> next to it, so extraction
+        // tools and screen readers skip the block characters entirely.
+        <pre className="asciiArt" aria-hidden="true">
             {NAME_ART.map((line, i) => (
                 <span key={`n-${i}`} style={{ color: COLORS[i % COLORS.length] }}>
                     {line}
